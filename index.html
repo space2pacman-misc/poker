@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Poker</title>
+</head>
+<body>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		.card {
+			width: 100px;
+			height: 100px;
+			background: #0f0;
+			position: absolute;
+			left: 0;
+			top: 0;
+			transition: all, .25s;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+
+	<div class="field"></div>
+
+	<script>
+		class Card {
+			constructor() {
+				this._card = null;
+				this._init();
+			}
+
+			show() {
+				this._card.classList.remove("hidden");
+			}
+
+			move(x, y) {
+				this._card.style.left = `${x}px`;
+				this._card.style.top = `${y}px`;
+			}
+
+			resize() {
+
+			}
+
+			get() {
+				return this._card;
+			}
+
+			_init() {
+				this._card = document.createElement("div");
+				this._card.classList.add("card");
+				this._card.classList.add("hidden");
+			}
+		}
+
+		class Poker {
+			constructor(field) {
+				this._field = document.querySelector(field);
+				this._cards = [];
+			}
+
+			addCard(card) {
+				this._cards.push(card);
+				this._render();
+			}
+
+			setDistance(value) {
+				this._cards.forEach((card, index) => {
+					card.move(index * 100, index * 10);
+				})
+			}
+
+			_render() {
+				this._cards.forEach(card => {
+					this._field.appendChild(card.get());
+					card.show();
+				})
+			}
+		}
+
+		let poker = new Poker(".field");
+
+		for(let i = 0; i < 5; i++) {
+			poker.addCard(new Card())
+		}
+
+		poker.setDistance(10);
+
+	</script>
+</body>
+</html>
