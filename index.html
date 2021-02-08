@@ -31,7 +31,9 @@
 
 	<script>
 		class Card {
-			constructor() {
+			constructor(width, height) {
+				this._width = width;
+				this._height = height;
 				this._card = null;
 				this._init();
 			}
@@ -53,10 +55,20 @@
 				return this._card;
 			}
 
+			get width() {
+				return this._width;
+			}
+
+			get height() {
+				return this._height;
+			}
+
 			_init() {
 				this._card = document.createElement("div");
 				this._card.classList.add("card");
 				this._card.classList.add("hidden");
+				this._card.style.width = this._width;
+				this._card.style.height = this._height;
 			}
 		}
 
@@ -71,10 +83,8 @@
 				this._render();
 			}
 
-			setDistance(left, top) {
-				this._cards.forEach((card, index, arr) => {
-					card.move((left - (50) * (arr.length - index)) + ((50) * index), top)
-				})
+			getCards() {
+				return this._cards;
 			}
 
 			_render() {
@@ -88,16 +98,19 @@
 		let poker = new Poker(".field");
 
 		for(let i = 0; i < 3; i++) {
-			poker.addCard(new Card())
+			poker.addCard(new Card(100, 100))
 		}
 
-		poker.setDistance(10, 0);
-
 		setTimeout(() => {
-			let center = window.innerWidth / 2;
+			poker.getCards().forEach((card, index, array) => {
+				let center = window.innerWidth / 2;
+				let width = (card.width / 2);
+				let offset = (card.width / 2) * index;
+				let count = array.length - index;
 
-			poker.setDistance(center, 50);
-		}, 1000)
+				card.move(center - (width * count) + offset, 50);
+			})
+		}, 100)
 
 	</script>
 </body>
