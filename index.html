@@ -12,13 +12,12 @@
 		}
 
 		.card {
-			width: 100px;
-			height: 100px;
 			background: #0f0;
 			position: absolute;
 			left: 0;
 			top: 0;
 			border: 1px solid;
+			background-size: cover;
 			transition: all, .25s;
 		}
 
@@ -31,7 +30,9 @@
 
 	<script>
 		class Card {
-			constructor(width, height) {
+			constructor(suit, type, width, height) {
+				this._suit = suit;
+				this._type = type;
 				this._width = width;
 				this._height = height;
 				this._card = null;
@@ -67,8 +68,9 @@
 				this._card = document.createElement("div");
 				this._card.classList.add("card");
 				this._card.classList.add("hidden");
-				this._card.style.width = this._width;
-				this._card.style.height = this._height;
+				this._card.style.width = `${this._width}px`;
+				this._card.style.height = `${this._height}px`;
+				this._card.style.backgroundImage = `url(images/${this._suit}/${this._type}.png)`;
 			}
 		}
 
@@ -96,10 +98,19 @@
 		}
 
 		let poker = new Poker(".field");
+		let suits = ["clubs", "diamonds", "hearts", "spades"];
+		let types = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
 		for(let i = 0; i < 3; i++) {
-			poker.addCard(new Card(100, 100))
+			let suit = suits[Math.floor(Math.random() * suits.length)];
+			let type = types[Math.floor(Math.random() * types.length)];
+
+			poker.addCard(new Card(suit, type, 50, 74))
 		}
+
+		poker.getCards().forEach((card, index, array) => {
+			card.move((10 * index) + 10, 10);
+		})
 
 		setTimeout(() => {
 			poker.getCards().forEach((card, index, array) => {
