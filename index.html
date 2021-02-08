@@ -72,8 +72,8 @@
 			}
 
 			setDistance(left, top) {
-				this._cards.forEach((card, index) => {
-					card.move(index * left, index * top);
+				this._cards.forEach((card, index, arr) => {
+					card.move((left - (50) * (arr.length - index)) + ((50) * index), top)
 				})
 			}
 
@@ -87,11 +87,17 @@
 
 		let poker = new Poker(".field");
 
-		for(let i = 0; i < 5; i++) {
+		for(let i = 0; i < 3; i++) {
 			poker.addCard(new Card())
 		}
 
 		poker.setDistance(10, 0);
+
+		setTimeout(() => {
+			let center = window.innerWidth / 2;
+
+			poker.setDistance(center, 50);
+		}, 1000)
 
 	</script>
 </body>
