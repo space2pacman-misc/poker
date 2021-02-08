@@ -67,6 +67,10 @@
 				return this._height;
 			}
 
+			_onMouseMove(event) {
+				this._card.style.transform = `rotateX(${Math.floor((30 / this._height) * event.offsetY)}deg)`
+			}
+
 			_init() {
 				this._card = document.createElement("div");
 				this._card.classList.add("card");
@@ -74,6 +78,7 @@
 				this._card.style.width = `${this._width}px`;
 				this._card.style.height = `${this._height}px`;
 				this._card.style.backgroundImage = `url(images/${this._suit}/${this._type}.png)`;
+				this._card.addEventListener("mousemove", this._onMouseMove.bind(this));
 			}
 		}
 
