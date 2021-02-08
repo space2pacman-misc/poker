@@ -11,6 +11,10 @@
 			margin: 0;
 		}
 
+		.field {
+			perspective: 1000px;
+		}
+
 		.card {
 			background: #fff;
 			position: absolute;
@@ -68,7 +72,13 @@
 			}
 
 			_onMouseMove(event) {
-				this._card.style.transform = `rotateX(${Math.floor((30 / this._height) * event.offsetY)}deg)`
+				let MAX_DEGRESS = 50;
+				let degrees = {
+					x: Math.floor((MAX_DEGRESS / this._height) * (event.offsetY - (this._height / 2))),
+					y: Math.floor((MAX_DEGRESS / this._width) * (event.offsetX - (this._width / 2)))
+				}
+
+				this._card.style.transform = `rotateX(${degrees.x}deg) rotateY(${degrees.y * -1}deg)`;
 			}
 
 			_init() {
