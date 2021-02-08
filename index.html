@@ -12,7 +12,7 @@
 		}
 
 		.card {
-			background: #0f0;
+			background: #fff;
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -48,8 +48,11 @@
 				this._card.style.top = `${y}px`;
 			}
 
-			resize() {
-
+			resize(scale) {
+				this._width = this._width * scale;
+				this._height = this._height * scale;
+				this._card.style.width = `${this._width}px`;
+				this._card.style.height = `${this._height}px`;
 			}
 
 			get() {
@@ -82,7 +85,14 @@
 
 			addCard(card) {
 				this._cards.push(card);
+				this.clearCards();
 				this._render();
+			}
+
+			clearCards() {
+				this._cards.forEach(card => {
+					card.get().remove();	
+				})
 			}
 
 			getCards() {
@@ -101,26 +111,28 @@
 		let suits = ["clubs", "diamonds", "hearts", "spades"];
 		let types = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
-		for(let i = 0; i < 3; i++) {
+		for(let i = 0; i < 5; i++) {
 			let suit = suits[Math.floor(Math.random() * suits.length)];
 			let type = types[Math.floor(Math.random() * types.length)];
 
-			poker.addCard(new Card(suit, type, 50, 74))
+			poker.addCard(new Card(suit, type, 50, 74));
 		}
 
 		poker.getCards().forEach((card, index, array) => {
-			card.move((10 * index) + 10, 10);
+			card.move((12 * index) + 10, 10);
 		})
 
 		setTimeout(() => {
 			poker.getCards().forEach((card, index, array) => {
+				card.resize(3);
+
 				let center = window.innerWidth / 2;
 				let width = (card.width / 2);
 				let offset = (card.width / 2) * index;
 				let count = array.length - index;
 
 				card.move(center - (width * count) + offset, 50);
-			})
+			});
 		}, 100)
 
 	</script>
